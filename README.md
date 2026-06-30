@@ -1,58 +1,206 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TechNews Portal
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Portal berita teknologi berbasis Laravel — menyajikan berita seputar AI, smartphone, laptop, PC hardware, gaming, software, dan cyber security. Proyek ini mencakup **website publik** untuk pembaca dan **panel admin** untuk mengelola konten.
 
-## About Laravel
+**Status:** MVP  
+**Dokumen:** [`docs/prd.md`](docs/prd.md) · [`docs/design.md`](docs/design.md)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Website Publik
 
-## Learning Laravel
+- Homepage dengan hero, breaking news, latest, trending, dan seksi per kategori
+- Detail berita (thumbnail, penulis, tanggal, konten, tags, related news, share)
+- Halaman kategori dan tag
+- Pencarian berita (judul, konten, kategori, tag)
+- Halaman About
+- Desain responsif (mobile-first) dengan gaya editorial cream/coral
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Panel Admin (`/admin`)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Login, logout, remember me (Laravel Breeze)
+- Dashboard statistik + grafik berita per kategori
+- CRUD berita (draft/publish, slug otomatis, CKEditor 5, upload thumbnail)
+- CRUD kategori dan tag
+- Media library (upload & kelola gambar)
+- Manajemen user admin/editor (hanya role `admin`)
+- Profil akun
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## Tech Stack
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Layer | Teknologi |
+|-------|-----------|
+| Backend | Laravel 13, PHP 8.3+ |
+| Frontend | Blade, Tailwind CSS, Alpine.js, Vite |
+| Database | MySQL |
+| Auth | Laravel Breeze |
+| Rich Text | CKEditor 5 (CDN) |
+| Charts | Chart.js (CDN) |
+| Testing | Pest |
+
+---
+
+## Persyaratan
+
+- PHP >= 8.3
+- Composer
+- Node.js & npm
+- MySQL
+- Extension PHP: `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `fileinfo`
+
+---
+
+## Instalasi (Laragon)
+
+### 1. Clone & masuk ke folder proyek
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+cd C:\laragon\www\JARKOM\Portal-Berita
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install dependensi
 
-## Contributing
+```bash
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Environment
 
-## Code of Conduct
+```bash
+copy .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Pastikan konfigurasi database di `.env`:
 
-## Security Vulnerabilities
+```env
+APP_NAME="TechNews Portal"
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=portal_berita
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Buat database `portal_berita` di phpMyAdmin atau HeidiSQL sebelum migrate.
 
-## License
+### 4. Database & storage
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate --seed
+php artisan storage:link
+```
+
+### 5. Build assets
+
+```bash
+npm run build
+```
+
+### 6. Jalankan aplikasi
+
+**Opsi A — satu perintah (server + queue + Vite):**
+
+```bash
+composer dev
+```
+
+**Opsi B — manual:**
+
+```bash
+php artisan serve
+npm run dev
+```
+
+Buka [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+## Akun Demo
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@technews.test` | `password` |
+| Editor | `editor@technews.test` | `password` |
+
+Login admin: [http://127.0.0.1:8000/login](http://127.0.0.1:8000/login)  
+Dashboard: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
+
+> Registrasi publik dinonaktifkan. User baru hanya bisa ditambahkan oleh admin.
+
+---
+
+## URL Utama
+
+| URL | Keterangan |
+|-----|------------|
+| `/` | Homepage |
+| `/news/{slug}` | Detail berita |
+| `/category/{slug}` | Berita per kategori |
+| `/tag/{slug}` | Berita per tag |
+| `/search?q=` | Pencarian |
+| `/about` | Tentang portal |
+| `/login` | Login admin |
+| `/admin` | Dashboard admin |
+
+---
+
+## Struktur Proyek
+
+```
+app/
+├── Http/Controllers/       # Public & Admin controllers
+├── Http/Middleware/        # Role: admin, editor
+├── Http/Requests/          # Form validation (News)
+├── Models/                 # User, News, Category, Tag, Media
+├── Observers/              # Auto-slug & publish date
+└── Services/               # NewsService (search, trending, related)
+
+resources/views/
+├── components/             # Blade components (news-card, layouts, dll.)
+├── public/                 # Halaman publik
+├── admin/                  # Panel admin
+└── auth/                   # Login Breeze
+
+database/
+├── migrations/
+├── factories/
+└── seeders/                # Kategori, berita demo, user admin
+```
+
+---
+
+## Testing
+
+```bash
+php artisan test
+```
+
+Atau via Composer:
+
+```bash
+composer test
+```
+
+---
+
+## Perintah Berguna
+
+```bash
+php artisan migrate:fresh --seed   # Reset database + seed ulang
+php artisan route:list             # Daftar route
+php artisan storage:link           # Symlink storage publik
+npm run build                      # Build production assets
+```
+
+---
+
+## Lisensi
+
+Proyek ini menggunakan [MIT License](https://opensource.org/licenses/MIT). Framework Laravel dilisensikan secara terpisah oleh Taylor Otwell.
