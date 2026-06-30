@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-canvas text-body antialiased;
+    }
+
+    h1, h2, h3, h4 {
+        @apply font-display text-ink;
+    }
+}
+
+@layer components {
+    .prose-news {
+        @apply text-body leading-relaxed;
+    }
+
+    .prose-news p {
+        @apply mb-4;
+    }
+
+    .prose-news h2 {
+        @apply text-2xl font-display mt-8 mb-4;
+    }
+
+    .prose-news h3 {
+        @apply text-xl font-display mt-6 mb-3;
+    }
+
+    .prose-news ul,
+    .prose-news ol {
+        @apply mb-4 ml-6 list-disc;
+    }
+
+    .prose-news a {
+        @apply text-primary underline;
+    }
+
+    .prose-news img {
+        @apply rounded-card my-6 max-w-full;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}

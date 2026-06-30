@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\View\View;
+
+class PageController extends Controller
+{
+    public function about(): View
+    {
+        return view('public.about', [
+            'title' => 'About — '.config('app.name'),
+        ]);
+    }
+}
