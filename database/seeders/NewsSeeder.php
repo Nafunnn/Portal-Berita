@@ -31,7 +31,7 @@ class NewsSeeder extends Seeder
                 ->create([
                     'category_id' => $category->id,
                     'user_id' => fake()->randomElement($authors)->id,
-                    'thumbnail' => 'news/placeholder.svg',
+                    'thumbnail' => 'news/placeholder.png',
                 ])
                 ->each(function (News $news) use ($tags) {
                     $news->tags()->attach(
