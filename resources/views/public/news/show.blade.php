@@ -42,7 +42,7 @@
             <div class="mx-auto mt-8 max-w-3xl border-t border-hairline pt-6">
                 <p class="mb-3 text-sm font-medium text-ink">Bagikan artikel</p>
                 <div class="flex flex-wrap gap-3">
-                    <button type="button" onclick="navigator.clipboard.writeText(window.location.href)" class="rounded-md border border-hairline px-4 py-2 text-sm hover:bg-surface-card">Copy Link</button>
+                    <button type="button" onclick="copyArticleLink(this)" class="rounded-md border border-hairline px-4 py-2 text-sm hover:bg-surface-card">Copy Link</button>
                     <a href="https://wa.me/?text={{ urlencode($news->title.' '.url()->current()) }}" target="_blank" rel="noopener" class="rounded-md border border-hairline px-4 py-2 text-sm hover:bg-surface-card">WhatsApp</a>
                     <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($news->title) }}" target="_blank" rel="noopener" class="rounded-md border border-hairline px-4 py-2 text-sm hover:bg-surface-card">X / Twitter</a>
                 </div>
@@ -62,4 +62,32 @@
             </div>
         </section>
     @endif
+
+    <script>
+        function copyArticleLink(button) {
+            const url = window.location.href;
+            const label = button.textContent;
+
+            if (navigator.clipboard?.writeText) {
+                navigator.clipboard.writeText(url).then(() => showCopied(button, label));
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = url;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showCopied(button, label);
+        }
+
+        function showCopied(button, label) {
+            button.textContent = 'Tersalin!';
+            setTimeout(() => { button.textContent = label; }, 2000);
+        }
+    </script>
 </x-layouts.public>
